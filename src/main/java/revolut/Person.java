@@ -3,6 +3,9 @@ package revolut;
 import java.util.Currency;
 import java.util.HashMap;
 
+
+
+
 public class Person {
 
     private String name;
@@ -10,22 +13,34 @@ public class Person {
     // EUR 30
     // USD 50
     // STG 30
-    private HashMap<String, Account> userAccounts = new HashMap<String, Account>();
+    private final HashMap<String, Account> userAccounts = new HashMap<String, Account>();
 
     public Person(String name){
         this.name = name;
         //Create a default euro account and add it the our userAccounts container
-        Currency accCurrency = Currency.getInstance("EUR");
-        Account euroAccount = new Account(accCurrency, 0);
-        userAccounts.put("EUR", euroAccount);
+        this.addAccount("EUR", 0);
     }
 
-    public void setAccountBalance(double startingBlanace) {
-        userAccounts.get("EUR").setBalance(startingBlanace);
+    public void addAccount(String currencyCode, double initBalance) {
+        if (userAccounts.containsKey(currencyCode)) {
+            System.out.println("User already has this currency in its accounts");
+            return;
+        }
+        try {
+            Currency accCurrency = Currency.getInstance(currencyCode);
+            Account account = new Account(accCurrency, initBalance);
+            userAccounts.put(currencyCode, account);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Incorrect currency given");
+        }
     }
 
-    public double getAccountBalance(String eur) {
-        return userAccounts.get("EUR").getBalance();
+    public void setAccountBalance(String type, double startingBalance) {
+        userAccounts.get(type).setBalance(startingBalance);
+    }
+
+    public double getAccountBalance(String type) {
+        return userAccounts.get(type).getBalance();
     }
 
     public Account getAccount(String account) {

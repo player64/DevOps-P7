@@ -1,6 +1,7 @@
 package features;
 
 import io.cucumber.java.Before;
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -23,7 +24,7 @@ public class StepDefinitions {
     @Given("Danny has {double} euro in his euro Revolut account")
     public void dannyHasEuroInHisEuroRevolutAccount(double startingBalance) {
         //System.out.println("Danny has starting account balance of: " + String.valueOf(startingBalance));
-        danny.setAccountBalance(startingBalance);
+        danny.setAccountBalance("EUR", startingBalance);
         //double newAccountBalance = danny.getAccountBalance("EUR");
         //System.out.println("Danny's new account balance if: " + String.valueOf(newAccountBalance));
     }
@@ -63,4 +64,34 @@ public class StepDefinitions {
         Assert.assertEquals(expectedResult, actualResult,0);
         System.out.println("The new final balance is: " + actualResult);
     }
+
+    @Given("Danny has a starting balance of {double}")
+    public void dannyHasAStartingBalanceOfStartBalance(double startBalance) {
+        danny.setAccountBalance("EUR", startBalance);
+    }
+
+    @When("Danny now tops up by {double}")
+    public void dannyNowTopsUpByTopUpAmount(double topUpAmount) {
+        danny.getAccount("EUR").topUp(topUpAmount, topUpMethod);
+    }
+
+    @Then("His account should return amount of {int}")
+    public void hisAccountShouldReturnAmountOf(int amount) {
+        Assert.assertEquals(amount, danny.getAccount("EUR").getBalance(), 0);
+    }
+
+    @Then("The balance in his euro account should be <newBalance>")
+    public void theBalanceInHisEuroAccountShouldBeNewBalance() {
+    }
+
+    @And("Selected payment service method has a limit of {double}")
+    public void selectedPaymentServiceMethodHasALimitOfServiceLimit(double serviceLimit) {
+        topUpMethod.setLimit(serviceLimit);
+    }
+
+    @Then("This topUp should be rejected due to insufficient funds")
+    public void thisTopUpShouldBeRejectedDueToInsufficientFunds() {
+        Assert.assertEquals(0, danny.getAccount("EUR").getBalance(), 0);
+    }
+
 }
