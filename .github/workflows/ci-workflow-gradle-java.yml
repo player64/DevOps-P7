@@ -41,6 +41,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout the code
+        uses: actions/checkout@v2
       - name: Download built artefact
         uses: actions/download-artifact@main
         with:
