@@ -21,7 +21,7 @@ Feature: Send money to a friend
       And Catriona has <catrionaStartBalance> <currency> on her account
       When Danny wish to send <sendAmount> <currency> to Catriona
       Then Accounts balance in <currency> should be updated as Catriona <catrionaBalance>, Danny <dannyBalance>
-      Then Number of currency accounts should be <noAccounts>
+      And Number of currency accounts should be <noAccounts>
       Examples:
         | dannyStartBalance | catrionaStartBalance  | currency | sendAmount | catrionaBalance | dannyBalance | noAccounts |
         | 100.00            | 150                   | "GBP"    | 100.01     | 150             | 100          | 2          |
