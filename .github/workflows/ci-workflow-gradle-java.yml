@@ -41,8 +41,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/download-artifact@main
+      - name: Download the build artefact
+        uses: actions/download-artifact@main
       with:
         name: gradle artefact
         path: build/libs
