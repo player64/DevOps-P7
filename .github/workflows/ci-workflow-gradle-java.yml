@@ -41,11 +41,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Download the build artefact
+      - name: Download built artefact
         uses: actions/download-artifact@main
-      with:
-        name: gradle artefact
-        path: build/libs
+        with:
+          name: gradle artefact
+          path: build/libs
 
       # Setup Java
       - name: Setup JDK 11
