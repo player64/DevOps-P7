@@ -4,8 +4,6 @@ import java.util.Currency;
 import java.util.HashMap;
 
 
-
-
 public class Person {
 
     private String name;
@@ -15,7 +13,7 @@ public class Person {
     // STG 30
     private final HashMap<String, Account> userAccounts = new HashMap<String, Account>();
 
-    public Person(String name){
+    public Person(String name) {
         this.name = name;
         //Create a default euro account and add it the our userAccounts container
         this.addAccount("EUR", 0);
@@ -36,7 +34,12 @@ public class Person {
     }
 
     public void setAccountBalance(String type, double startingBalance) {
-        userAccounts.get(type).setBalance(startingBalance);
+        try {
+            userAccounts.get(type).setBalance(startingBalance);
+        } catch (NullPointerException e) {
+            this.addAccount(type, startingBalance);
+            System.out.println("The new account has been opened for the user.");
+        }
     }
 
     public double getAccountBalance(String type) {
@@ -45,5 +48,9 @@ public class Person {
 
     public Account getAccount(String account) {
         return userAccounts.get(account);
+    }
+
+    public HashMap<String, Account> getUserAccounts() {
+        return this.userAccounts;
     }
 }
